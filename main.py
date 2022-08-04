@@ -1,11 +1,8 @@
 from ftp_connect import ftp_fetch, ftp_push
-import CSVparsing
 
-
-if __name__=='__main__':
+if __name__ == '__main__':
     # fetch and print files from the FTP server
     print(ftp_fetch())
 
     # send files to the server
     ftp_push()  # will take file paths as arguments
-
