@@ -7,7 +7,11 @@ class csvParsingFilenameValidateTest(unittest.TestCase):
         """Should return bool true|false"""
         self.assertIsInstance(CSVparsing.validateFilename("testingData"),bool)
 
+class csvParsingValidateDateTimeTest(unittest.TestCase):
 
+    def testReturnType(self):
+        """Should return a true/false bool"""
+        self.assertIsInstance(CSVparsing.validateDateTime("05082022"), bool)
 
 
 
