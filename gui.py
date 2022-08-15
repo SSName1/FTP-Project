@@ -1,6 +1,7 @@
 # importing tkinter libraries
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
+from datetime import date
 
 """
 function which allows user to select file and changes the text of the
@@ -15,6 +16,13 @@ def choose_file():
         return
     btn_choose_file["text"] = filepath
     return filepath
+
+
+def enter_today():
+    today = date.today()
+    print(today)
+    ent_filter.delete(0, 'end')
+    ent_filter.insert(0, today)
 
 
 """
@@ -46,7 +54,7 @@ btn_filter = tk.Button(
 btn_today = tk.Button(
     master=frm_filter,
     text="Today",
-    # command=
+    command=enter_today
 )
 # other button widgets
 btn_view = tk.Button(
