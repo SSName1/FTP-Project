@@ -2,8 +2,7 @@ import csv,re
 from tabulate import tabulate
 from datetime import datetime
 
-def outputNiceCsv(filename):
-    path='output/csv/'
+def outputNiceCsv(filename,path):
     with open(path+filename, newline='') as csvfile:
         dataReader = csv.reader(csvfile)
         print(tabulate(dataReader, headers='firstrow',tablefmt='pipe'))
@@ -28,16 +27,15 @@ datetime.now().strftime("%M"),datetime.now().strftime("%S")])
         return False
 
 
-def validateFileData(filename):
+def validateFileData(filename,path):
     '''Fully Validates the files data and determines if the file is valid Returns: True|False'''
     validFile=True
-    path='output/csv/'
     checkListDataValues=[]
     with open(path+filename, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for index,row in enumerate(reader):
             if index==0:
-                if row[0]=="batch": # check for invalid batch_id as batch
+                if row[0]!="batch_id": # check for invalid batch_id as batch
                     validFile=False
                 if len(row)!=12: # check for correct amount of CSV headers
                     validFile=False
@@ -53,12 +51,12 @@ def validateFileData(filename):
                         validFile=False
     return validFile
 
-def masterValidate(filename):
+def masterValidate(path,filename):
     '''here will run the master validation (composite of all other validaiton functions) returns true if completely valid otherwise false'''
     dateTimeOrder=filename.replace("MED_DATA_","")
     dateTimeOrder=dateTimeOrder.replace(".csv","")
-    validationFuncs=[validateFilename(filename),validateDateTime(dateTimeOrder),validateFileData(filename)]
-
+    validationFuncs=[validateFilename(filename),validateDateTime(dateTimeOrder),validateFileData(filename,path)]
+    print(validationFuncs)
     if validationFuncs[0]==True and validationFuncs[1]==True and validationFuncs[2]==True:
         completeValid=True
     else:
@@ -66,5 +64,4 @@ def masterValidate(filename):
     return completeValid
 
 if __name__=='__main__':
-    # print(validateFileData('MED_DATA_20220605142519.csv'))
-    print(masterValidate('MED_DATA_20220605142519.csv'))
+    print(masterValidate('csvSamples/Samples - Invalid/Bad Header/','MED_DATA_20220803155852.csv'))
