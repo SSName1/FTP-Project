@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, LEFT, BOTH, END, RIGHT
+from tkinter import ttk, LEFT, BOTH, END, RIGHT, BOTTOM
 import tkcalendar
 from datetime import date
 import os
@@ -11,7 +11,7 @@ class App:
         self.path = 'csvSamples/Samples - Valid/'
         self.window = tk.Tk()
         self.window.title("Medical Data")
-        self.window.geometry("600x600")
+        self.window.geometry("600x700")
         self.init_ui()
 
 
@@ -36,14 +36,16 @@ class App:
        self.dropDown.pack(fill=BOTH)
        self.scrollbar=tk.Scrollbar(self.window)
        self.scrollbar.pack(side=RIGHT, fill= BOTH)
+       self.dropDown.config(yscrollcommand=self.scrollbar.set)
 
-
+   #     Button UI generation
+       self.buttonSelect=tk.Button(self.window,text="Output Selected File",command=self.selectedItemOutput)
+       self.buttonSelect.pack(side=BOTTOM)
 
    def get_date(self):
     self.outListItems = []
     date_string = self.calendar.selection_get()
     date_string=str(date_string).replace("-","")
-    print(date_string)
     itemList=os.listdir(self.path)
     for items in itemList:
         if str(date_string) in str(items):
@@ -52,9 +54,14 @@ class App:
     self.putInDropDown(self.outListItems)
 
    def putInDropDown(self,validFilesList):
+       self.dropDown.delete(0,tk.END)
        for val in validFilesList:
            self.dropDown.insert(END,val)
-       self.dropDown.config(yscrollcommand=self.scrollbar.set)
+
+   def selectedItemOutput(self):
+        for item in self.dropDown.curselection():
+            CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
+
 
 
 if __name__ == "__main__":
