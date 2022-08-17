@@ -1,10 +1,13 @@
 from ftp_connect import ftp_fetch, ftp_push
+from tkinter import *
+import argparse
+from gui import launch_gui
 
-if __name__ == '__main__':
-    # # fetch and print files from the FTP server
-    # print(ftp_fetch())
-    #
-    # # send files to the server
-    # ftp_push()  # will take file paths as arguments
+parser = argparse.ArgumentParser(description="A simple hello world program")
+parser.add_argument("--gui", help="Show the GUI", action="store_true")
+args = parser.parse_args()
 
-    print("interpreter test")
+if (args.gui):
+    launch_gui()
+else:
+    print("Hello, world!")
