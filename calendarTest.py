@@ -3,10 +3,12 @@ from tkinter import ttk, LEFT, BOTH, END, RIGHT
 import tkcalendar
 from datetime import date
 import os
+import CSVparsing
 
 class App:
 
    def __init__(self):
+        self.path = 'csvSamples/Samples - Valid/'
         self.window = tk.Tk()
         self.window.title("Medical Data")
         self.window.geometry("600x600")
@@ -31,22 +33,23 @@ class App:
 
        #  drop down box code below
        self.dropDown= tk.Listbox(self.window)
-       self.dropDown.pack(side=LEFT,fill=BOTH)
+       self.dropDown.pack(fill=BOTH)
        self.scrollbar=tk.Scrollbar(self.window)
        self.scrollbar.pack(side=RIGHT, fill= BOTH)
 
 
 
    def get_date(self):
-    outListItems = []
+    self.outListItems = []
     date_string = self.calendar.selection_get()
     date_string=str(date_string).replace("-","")
     print(date_string)
-    itemList=os.listdir('csvSamples/Samples - Valid')
+    itemList=os.listdir(self.path)
     for items in itemList:
         if str(date_string) in str(items):
-            outListItems.append(items)
-    self.putInDropDown(outListItems)
+            if CSVparsing.masterValidate(self.path,items):#Validates all files before adding them to Show List
+                self.outListItems.append(items)
+    self.putInDropDown(self.outListItems)
 
    def putInDropDown(self,validFilesList):
        for val in validFilesList:

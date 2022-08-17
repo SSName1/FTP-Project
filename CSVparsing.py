@@ -56,7 +56,6 @@ def masterValidate(path,filename):
     dateTimeOrder=filename.replace("MED_DATA_","")
     dateTimeOrder=dateTimeOrder.replace(".csv","")
     validationFuncs=[validateFilename(filename),validateDateTime(dateTimeOrder),validateFileData(filename,path)]
-    print(validationFuncs)
     if validationFuncs[0]==True and validationFuncs[1]==True and validationFuncs[2]==True:
         completeValid=True
     else:
