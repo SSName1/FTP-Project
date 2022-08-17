@@ -115,4 +115,5 @@ data_entries.pack(side=tk.LEFT, fill="y")
 """
 LAUNCHING GUI
 """
-window.mainloop()
+def launch_gui():
+    window.mainloop()
