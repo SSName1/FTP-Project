@@ -66,9 +66,7 @@ btn_view = tk.Button(
 # configuring scrollable list
 frm_scroll_box = tk.Frame(master=window)
 # placeholder data
-entries = ["a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c", "d",
-           "e", "a", "b", "c", "d", "e", "a", "b",
-           "c", "d", "e", "a", "b", "c", "d", "e"]
+entries = ["a", "b", "c", "d", "e", "a", "b", "c", "d", "e"]
 entries_to_use = tk.StringVar(value=entries)
 data_entries = tk.Listbox(
     master=frm_scroll_box,
