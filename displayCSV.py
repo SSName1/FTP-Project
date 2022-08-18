@@ -92,7 +92,3 @@ class DisplayCSV:
             for col in range(1, 11):
                 tk.Label(self.window, text=row[col]).grid(row=1, column=col)
 
-
-if __name__ == "__main__":
-    app = DisplayCSV('csvSamples/Samples - Valid/MED_DATA_20220803153918.csv')
-    app.window.mainloop()

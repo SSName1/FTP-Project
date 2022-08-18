@@ -1,15 +1,15 @@
-from ftp_connect import ftp_fetch, ftp_push
-from tkinter import *
 import argparse
-from calendarTest import launch_gui
-import ftp_connect
+from launchGui import launch_gui
 
-parser = argparse.ArgumentParser(description="A simple hello world program")
+parser = argparse.ArgumentParser(description="A Medical Data Viewing Program")
 parser.add_argument("--gui", help="Show the GUI", action="store_true")
+parser.add_argument("--cli", help="Show the CMDLINE Version", action="store_true")
 args = parser.parse_args()
 
 if __name__=="__main__":
     if (args.gui):
         launch_gui()
+    if (args.cli):
+        print('CMDLINE')
     else:
-        print("Hello, world!")
+        print("Run from cmdline")

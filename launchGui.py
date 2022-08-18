@@ -1,23 +1,21 @@
 import tkinter as tk
-from tkinter import ttk, LEFT, BOTH, END, RIGHT, BOTTOM
+from tkinter import BOTH, END, RIGHT, BOTTOM
 import tkcalendar
-import os
 import CSVparsing
 import ftp_connect
+import displayCSV
 
 class App:
 
-   def __init__(self,path):
-        self.path=path
+   def __init__(self):
+        '''Initalizes the important variables for the Tkinter Calendar GUI'''
         self.window = tk.Tk()
         self.window.title("Medical Data")
         self.window.geometry("600x700")
         self.init_ui()
 
-
-
    def init_ui(self):
-
+       '''Initalizes the UI elements for positioning on the Tkinter UI'''
        self.output_label = tk.Label(self.window, text="")
        self.output_label.pack(fill=tk.X, padx=10)
        self.date_label = tk.Label(self.window,
@@ -31,7 +29,7 @@ class App:
                                      command=self.get_date)
        self.date_button.pack()
 
-       #  drop down box code below
+       #  drop down box packing and positioning
        self.dropDown= tk.Listbox(self.window)
        self.dropDown.pack(fill=BOTH)
        self.scrollbar=tk.Scrollbar(self.window)
@@ -43,33 +41,41 @@ class App:
        self.buttonSelect.pack(side=BOTTOM)
 
    def get_date(self):
+    '''Once the get_Date button is pressed the validated files are grabbed from the server and added to the dropdown list'''
     self.outListItems = []
     date_string = self.calendar.selection_get()
     date_string=str(date_string).replace("-","")
 
-    itemList=ftp_connect.ftp_fetch()
+    try:
+        itemList=ftp_connect.ftp_fetch() # validation to check if there is a connection to FTP
+    except:
+        print("Couldnt connect to FTP Server, is config up to date? or is server running?")
+        exit(0)
 
     for items in itemList:
         if str(date_string) in str(items):
-            if CSVparsing.masterValidate(self.path,items):#Validates all files before adding them to Show List
+            ftp_connect.ftp_pull(items,"tempFTPDownload/"+str(items))
+            if CSVparsing.masterValidate("tempFTPDownload/",items):#Validates all files before adding them to Show List
                 self.outListItems.append(items)
     self.putInDropDown(self.outListItems)
 
    def putInDropDown(self,validFilesList):
+       '''Adds all the valid files to the drop down list in the UI'''
        self.dropDown.delete(0,tk.END)
        for val in validFilesList:
            self.dropDown.insert(END,val)
 
    def selectedItemOutput(self):
+        '''Method outputs the given selected file into a Tkinter GUI for easy user reading'''
         self.fileToOutput=""
         for item in self.dropDown.curselection():
-            # CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
             self.fileToOutput=self.dropDown.get(item)
-        print(self.fileToOutput)
-        ftp_connect.ftp_pull(self.fileToOutput, "./here.csv")
+        ftp_connect.ftp_pull(self.fileToOutput, "tempFTPDownload/tempL.csv") #Creates a temp file to store Pulled FTP CSV data
+        outputObj=displayCSV.DisplayCSV("tempFTPDownload/tempL.csv")
+
 
 
 
 def launch_gui():
-    app = App('csvSamples/Samples - Valid/')
+    app = App() # Launches the Tkinter UI
     app.window.mainloop()
