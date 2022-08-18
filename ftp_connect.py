@@ -23,22 +23,29 @@ def ftp_fetch():
     # fetch the data and append it to a variable
     data = ftp.nlst()
 
-    ftp.quit()
+    # ftp.quit()
 
     # the return data is an array, python seems to handle it seamlessly
     return data
 
 
-# ftp_pull: takes the parameters of (locationOfFileonFTPserver, locationToSaveLocally), output: None
-def ftp_pull(*args):
+def ftp_pull(remoteFile, localFolder, return_bool = False):
+    # set the ftp variable to the return of the connect function, to restore capability to the ftp commands
+    ftp = ftp_connect()
 
-    ftp_fetch()
-    ftp.cwd("/")
+    # open the local file for writing in binary mode
+    lf = open(localFolder, 'wb')
+    
+    # fetch the data from the ftp server and write it to the local file
+    ftp.retrbinary('RETR ' + remoteFile, lf.write)
 
-    for file in data:
-        if file.startswith(get_date):
-            ftp.retrbinary("RETR " + file, open(file, "wb").write)
+    # close the connection to the FTP server and the local file
+    ftp.quit()
+    lf.close()
 
+    # optional return if successful
+    if return_bool:
+        return True
 
 def ftp_push(*args):
     ftp = ftp_connect()

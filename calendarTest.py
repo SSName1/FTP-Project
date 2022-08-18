@@ -65,7 +65,8 @@ class App:
         for item in self.dropDown.curselection():
             # CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
             self.fileToOutput=self.dropDown.get(item)
-        ftp_connect.ftp_pull(("/"+self.fileToOutput))
+        print(self.fileToOutput)
+        ftp_connect.ftp_pull(self.fileToOutput, "./here.csv")
 
 
 
