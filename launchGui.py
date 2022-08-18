@@ -51,10 +51,10 @@ class App:
                                  selectmode="day")
         self.btn_filter = \
             tk.Button(
-            master=self.frm_filter,
-            text="Get Date",
-            command=self.get_date
-        )
+                master=self.frm_filter,
+                text="Get Date",
+                command=self.get_date
+            )
 
         # other button widgets
         self.btn_view = tk.Button(
@@ -99,11 +99,6 @@ class App:
         # laying out scrollable list widgets within frm_scroll_box
         self.scrollbar.pack(side=tk.RIGHT, fill="y")
         self.dropDown.pack(side=tk.LEFT, fill="y")
-
-    """Initializes the UI elements for positioning on the Tkinter UI"""
-
-    # self.output_label = tk.Label(self.window, text="")
-    # elf.output_label.pack(fill=tk.X, padx=10)
 
     def choose_file(self):
         filepath = askopenfilename(filetypes=(("csv files", "*.csv"),))
