@@ -92,8 +92,8 @@ class App:
 
         # laying out filtering widgets within frm_filter
         self.lbl_filter.grid(row=0)
-        self.calendar.grid(row=1, column=0)
-        self.btn_filter.grid(row=1, column=1)
+        self.calendar.grid(row=1)
+        self.btn_filter.grid(row=2, padx=5, pady=5, sticky="nsew")
 
         # laying out scrollable list widgets within frm_scroll_box
         self.scrollbar.pack(side=tk.RIGHT, fill="y")
