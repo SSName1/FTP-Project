@@ -73,9 +73,6 @@ class App:
         ftp_connect.ftp_pull(self.fileToOutput, "tempFTPDownload/tempL.csv") #Creates a temp file to store Pulled FTP CSV data
         outputObj=displayCSV.DisplayCSV("tempFTPDownload/tempL.csv")
 
-
-
-
 def launch_gui():
     app = App() # Launches the Tkinter UI
     app.window.mainloop()

@@ -10,7 +10,7 @@ args = parser.parse_args()
 if __name__=="__main__":
     if (args.gui):
         launch_gui()
-    if (args.cli):
+    elif (args.cli):
         cmdObj=runCmdline()
         cmdObj.decisionTree()
     else:
