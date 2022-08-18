@@ -1,14 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, LEFT, BOTH, END, RIGHT, BOTTOM
 import tkcalendar
-from datetime import date
 import os
 import CSVparsing
 
 class App:
 
-   def __init__(self):
-        self.path = 'csvSamples/Samples - Valid/'
+   def __init__(self,path):
+        self.path=path
         self.window = tk.Tk()
         self.window.title("Medical Data")
         self.window.geometry("600x700")
@@ -65,5 +64,5 @@ class App:
 
 
 if __name__ == "__main__":
-    app = App()
+    app = App('csvSamples/Samples - Valid/')
     app.window.mainloop()
