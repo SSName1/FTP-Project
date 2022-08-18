@@ -9,8 +9,7 @@ parser.add_argument("--gui", help="Show the GUI", action="store_true")
 args = parser.parse_args()
 
 if __name__=="__main__":
-    launch_gui()
-    # if (args.gui):
-    #     launch_gui()
-    # else:
-    #     print("Hello, world!")
+    if (args.gui):
+        launch_gui()
+    else:
+        print("Hello, world!")
