@@ -1,6 +1,5 @@
 import CSVparsing as parser
 import ftp_connect as FTP
-from pathlib import Path
 import os
 import shutil
 
