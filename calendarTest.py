@@ -3,6 +3,7 @@ from tkinter import ttk, LEFT, BOTH, END, RIGHT, BOTTOM
 import tkcalendar
 import os
 import CSVparsing
+import ftp_connect
 
 class App:
 
@@ -45,7 +46,9 @@ class App:
     self.outListItems = []
     date_string = self.calendar.selection_get()
     date_string=str(date_string).replace("-","")
-    itemList=os.listdir(self.path)
+
+    itemList=ftp_connect.ftp_fetch()
+
     for items in itemList:
         if str(date_string) in str(items):
             if CSVparsing.masterValidate(self.path,items):#Validates all files before adding them to Show List
@@ -58,11 +61,14 @@ class App:
            self.dropDown.insert(END,val)
 
    def selectedItemOutput(self):
+        self.fileToOutput=""
         for item in self.dropDown.curselection():
-            CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
+            # CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
+            self.fileToOutput=self.dropDown.get(item)
+        ftp_connect.ftp_pull(("/"+self.fileToOutput))
 
 
-# if __name__ == "__main__":
+
 def launch_gui():
     app = App('csvSamples/Samples - Valid/')
     app.window.mainloop()

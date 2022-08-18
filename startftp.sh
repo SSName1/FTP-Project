@@ -1,2 +1,2 @@
-sudo python ftpserver_cli.py --directory="/"
+sudo python3 ftpserver_cli.py --directory="/"
 

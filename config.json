@@ -1,1 +1,1 @@
-{ "FTP_HOST": "192.168.56.102", "FTP_USER": "ftpuser", "FTP_PASS": "Pr0gramming!" }
+{ "FTP_HOST": "127.0.0.1", "FTP_USER": "user", "FTP_PASS": "12345" }

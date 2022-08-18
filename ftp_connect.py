@@ -28,6 +28,8 @@ def ftp_fetch():
     # the return data is an array, python seems to handle it seamlessly
     return data
 
+
+# ftp_pull: takes the parameters of (locationOfFileonFTPserver, locationToSaveLocally), output: None
 def ftp_pull(*args):
 
     ftp_fetch()

@@ -18,22 +18,25 @@ def processCmdLineOptions():
       default="12345", help="password")
   optparser.add_argument('-t', '--port', action='store', type=int,
       default="21", help="port")
+
+  # PATH IS HARDCODED HERE, IF RUNNING LOCAL FTP SERVER CHANGE PATH BELOW IN CMDPARSER
   optparser.add_argument('-d', '--directory', action='store', type=str,
-      default="/home/stefano/Projekte/", help="port")
+      default="/home/parallels/PycharmProjects/FTP-Project/csvSamples/Samples - Valid/", help="port")
   optargs = optparser.parse_args(sys.argv[1:]) #(sys.argv)
   return optargs
 
 
-optargs = processCmdLineOptions()
+if __name__=="__main__":
+    optargs = processCmdLineOptions()
 
-print("Using: user: %s pass: %s port: %d dir: %s" % (optargs.username, optargs.password, optargs.port, optargs.directory))
+    print("Using: user: %s pass: %s port: %d dir: %s" % (optargs.username, optargs.password, optargs.port, optargs.directory))
 
-authorizer = DummyAuthorizer()
-authorizer.add_user(optargs.username, optargs.password, optargs.directory, perm="elradfmw")
-#authorizer.add_anonymous("/home/nobody")
+    authorizer = DummyAuthorizer()
+    authorizer.add_user(optargs.username, optargs.password, optargs.directory, perm="elradfmw")
+    #authorizer.add_anonymous("/home/nobody")
 
-handler = FTPHandler
-handler.authorizer = authorizer
+    handler = FTPHandler
+    handler.authorizer = authorizer
 
-server = FTPServer(("127.0.0.1", optargs.port), handler)
-server.serve_forever()
+    server = FTPServer(("127.0.0.1", optargs.port), handler)
+    server.serve_forever()
