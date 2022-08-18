@@ -61,6 +61,3 @@ def masterValidate(path,filename):
     else:
         completeValid=False
     return completeValid
-
-if __name__=='__main__':
-    print(masterValidate('csvSamples/Samples - Invalid/Bad Header/','MED_DATA_20220803155852.csv'))

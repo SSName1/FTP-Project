@@ -1,5 +1,6 @@
 import argparse
 from launchGui import launch_gui
+from launchCmdline import runCmdline
 
 parser = argparse.ArgumentParser(description="A Medical Data Viewing Program")
 parser.add_argument("--gui", help="Show the GUI", action="store_true")
@@ -10,6 +11,7 @@ if __name__=="__main__":
     if (args.gui):
         launch_gui()
     if (args.cli):
-        print('CMDLINE')
+        cmdObj=runCmdline()
+        cmdObj.decisionTree()
     else:
-        print("Run from cmdline")
+        print("Improper Arguments")
