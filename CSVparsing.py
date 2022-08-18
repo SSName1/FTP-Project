@@ -59,5 +59,6 @@ def masterValidate(path,filename):
     if validationFuncs[0]==True and validationFuncs[1]==True and validationFuncs[2]==True:
         completeValid=True
     else:
+        print(filename+" is invalid")
         completeValid=False
     return completeValid
