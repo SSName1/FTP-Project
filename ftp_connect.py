@@ -28,6 +28,15 @@ def ftp_fetch():
     # the return data is an array, python seems to handle it seamlessly
     return data
 
+def ftp_pull(*args):
+
+    ftp_fetch()
+    ftp.cwd("/")
+
+    for file in data:
+        if file.startswith(get_date):
+            ftp.retrbinary("RETR " + file, open(file, "wb").write)
+
 
 def ftp_push(*args):
     ftp = ftp_connect()

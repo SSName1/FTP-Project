@@ -37,7 +37,7 @@ class App:
        self.scrollbar.pack(side=RIGHT, fill= BOTH)
        self.dropDown.config(yscrollcommand=self.scrollbar.set)
 
-   #     Button UI generation
+       #  Button UI generation
        self.buttonSelect=tk.Button(self.window,text="Output Selected File",command=self.selectedItemOutput)
        self.buttonSelect.pack(side=BOTTOM)
 
@@ -62,7 +62,7 @@ class App:
             CSVparsing.outputNiceCsv(self.dropDown.get(item),self.path)
 
 
-
-if __name__ == "__main__":
+# if __name__ == "__main__":
+def launch_gui():
     app = App('csvSamples/Samples - Valid/')
     app.window.mainloop()
