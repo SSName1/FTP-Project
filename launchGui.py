@@ -34,7 +34,7 @@ class App:
         # configures grid layout
         self.window.rowconfigure(0, minsize=250, weight=1)
         self.window.rowconfigure(1, minsize=100, weight=1)
-        self.window.columnconfigure(0, minsize=200, weight=1)
+        self.window.columnconfigure(0, minsize=230, weight=1)
         self.window.columnconfigure(1, minsize=100, weight=1)
         self.window.columnconfigure(2, minsize=100, weight=1)
         self.init_ui()
@@ -49,7 +49,8 @@ class App:
                                    text="Filter by Date")
         self.calendar = Calendar(master=self.frm_filter,
                                  selectmode="day")
-        self.btn_filter = tk.Button(
+        self.btn_filter = \
+            tk.Button(
             master=self.frm_filter,
             text="Get Date",
             command=self.get_date
@@ -84,7 +85,7 @@ class App:
         CREATING WIDGET LAYOUT
         """
         # laying out widgets on the main window
-        self.frm_scroll_box.grid(row=0, column=0, padx=5, pady=5)
+        self.frm_scroll_box.grid(row=0, column=0)
         self.frm_filter.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
         self.btn_view.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.btn_choose_file.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
