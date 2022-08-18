@@ -4,9 +4,11 @@ import tkcalendar
 import CSVparsing
 import ftp_connect
 import displayCSV
+from pathlib import Path
+import os
+import shutil
 
 class App:
-
    def __init__(self):
         '''Initalizes the important variables for the Tkinter Calendar GUI'''
         self.window = tk.Tk()
@@ -45,7 +47,6 @@ class App:
     self.outListItems = []
     date_string = self.calendar.selection_get()
     date_string=str(date_string).replace("-","")
-
     try:
         itemList=ftp_connect.ftp_fetch() # validation to check if there is a connection to FTP
     except:
@@ -53,10 +54,18 @@ class App:
         exit(0)
 
     for items in itemList:
-        if str(date_string) in str(items):
-            ftp_connect.ftp_pull(items,"tempFTPDownload/"+str(items))
-            if CSVparsing.masterValidate("tempFTPDownload/",items):#Validates all files before adding them to Show List
-                self.outListItems.append(items)
+        if CSVparsing.validateFilename(items):
+            if str(date_string) in str(items):
+                os.makedirs("tempFTPDownload/",exist_ok=True)
+                ftp_connect.ftp_pull(items,"tempFTPDownload/"+str(items))
+                if CSVparsing.masterValidate("tempFTPDownload/",items):#Validates all files before adding them to Show List
+                    os.makedirs("FTPDownload/" + str(date_string[:4]) +"/"+ str(date_string[4:6]) +"/"+ str(date_string[6:8]),exist_ok=True)
+                    self.outListItems.append(items)
+
+    if len(self.outListItems)!=0:
+        for files in self.outListItems:
+            os.rename("tempFTPDownload/"+files,"FTPDownload/"+files[9:13]+"/"+files[13:15]+"/"+files[15:17]+"/"+files)
+        shutil.rmtree("tempFTPDownload")
     self.putInDropDown(self.outListItems)
 
    def putInDropDown(self,validFilesList):
@@ -70,8 +79,8 @@ class App:
         self.fileToOutput=""
         for item in self.dropDown.curselection():
             self.fileToOutput=self.dropDown.get(item)
-        ftp_connect.ftp_pull(self.fileToOutput, "tempFTPDownload/tempL.csv") #Creates a temp file to store Pulled FTP CSV data
-        outputObj=displayCSV.DisplayCSV("tempFTPDownload/tempL.csv")
+        ftp_connect.ftp_pull(self.fileToOutput, "FTPDownload/"+self.fileToOutput[9:13]+"/"+self.fileToOutput[13:15]+"/"+self.fileToOutput[15:17]+"/"+self.fileToOutput) #Creates a temp file to store Pulled FTP CSV data
+        outputObj=displayCSV.DisplayCSV("FTPDownload/"+self.fileToOutput[9:13]+"/"+self.fileToOutput[13:15]+"/"+self.fileToOutput[15:17]+"/"+self.fileToOutput)
 
 def launch_gui():
     app = App() # Launches the Tkinter UI

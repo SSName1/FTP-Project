@@ -1,5 +1,8 @@
 import CSVparsing as parser
 import ftp_connect as FTP
+from pathlib import Path
+import os
+import shutil
 
 #Code was collaborated and written together by Harry S, Sunil S
 class runCmdline():
@@ -45,18 +48,29 @@ class runCmdline():
             print("Couldn't connect to FTP Server, is config up to date? or is server running?")
             exit(0)
         for items in self.itemList:
-            if date in str(items):
-                FTP.ftp_pull(items, "tempFTPDownload/" + str(items))
-                if parser.masterValidate("tempFTPDownload/",items):  # Validates all files before adding them to Show List
-                    self.outputList.append(items)
+            if parser.validateFilename(items):
+                if date in str(items):
+                    os.makedirs("tempFTPDownload/", exist_ok=True)
+                    FTP.ftp_pull(items, "tempFTPDownload/" + str(items))
+                    if parser.masterValidate("tempFTPDownload/",items):  # Validates all files before adding them to Show List
+                        os.makedirs("FTPDownload/" + str(date[:4]) + "/" + str(date[4:6]) + "/" + str(date[6:8]), exist_ok=True)
+                        self.outputList.append(items)
+
+        if len(self.outputList) != 0:
+            for files in self.outputList:
+                os.rename("tempFTPDownload/" + files,"FTPDownload/"+files[9:13]+"/"+files[13:15]+"/"+files[15:17]+"/"+files)
+            shutil.rmtree("tempFTPDownload")
+
         print("The Files for that current day are:")
-        self.outputList=[print(file) for file in self.outputList]
+        for file in self.outputList:
+            print(file)
+
         self.uChoice=str(input("Enter File to View >: "))
         if self.uChoice not in self.itemList: #if filename not found in displayed list
             print("Wrong Filename")
             exit(0)
         else:
-            parser.outputNiceCsv(self.uChoice,"tempFTPDownload/") #object method call to print csv in console
+            parser.outputNiceCsv(self.uChoice,"FTPDownload/"+self.uChoice[9:13]+"/"+self.uChoice[13:15]+"/"+self.uChoice[15:17]+"/") #object method call to print csv in console
 
     def specificFile(self,filename):
         try:
