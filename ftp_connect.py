@@ -1,5 +1,3 @@
-# todo: handle refusal
-
 def ftp_connect():
     # import modules
     from ftplib import FTP
@@ -22,8 +20,6 @@ def ftp_fetch():
 
     # fetch the data and append it to a variable
     data = ftp.nlst()
-
-    # ftp.quit()
 
     # the return data is an array, python seems to handle it seamlessly
     return data
