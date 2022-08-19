@@ -156,7 +156,9 @@ class App:
             shutil.rmtree("tempFTPDownload")
         self.putInDropDown(self.outListItems)
 
-    """Adds all the valid files to the drop down list in the UI"""
+    """
+    Adds all the valid files to the drop down list in the UI
+    """
     def putInDropDown(self, validFilesList):
         self.dropDown.delete(0, tk.END)
         for val in validFilesList:
