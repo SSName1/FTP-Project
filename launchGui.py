@@ -1,3 +1,4 @@
+# importing all required modules
 import tkinter as tk
 from tkinter import END
 from tkinter.filedialog import askopenfilename
@@ -7,14 +8,19 @@ import ftp_connect
 import displayCSV
 import os
 import shutil
-class App:
 
+
+class App:
+    """
+    CREATING UI, largely created by Adam D
+    """
     def __init__(self):
         """
         CONFIGURING WINDOW
         """
 
-        # creates window
+        # defining widgets
+        self.calendar = None
         self.btn_upload = None
         self.btn_choose_file = None
         self.scrollbar = None
@@ -28,6 +34,7 @@ class App:
         self.lbl_filter = None
         self.frm_filter = None
 
+        # creates window
         self.window = tk.Tk()
         self.window.title("Medical Data")
 
@@ -45,8 +52,10 @@ class App:
         """
         # configuring filter widgets
         self.frm_filter = tk.Frame(master=self.window)
+
         self.lbl_filter = tk.Label(master=self.frm_filter,
                                    text="Filter by Date")
+        # creating calendar widget
         self.calendar = Calendar(master=self.frm_filter,
                                  selectmode="day")
         self.btn_filter = \
@@ -87,9 +96,9 @@ class App:
         # laying out widgets on the main window
         self.frm_scroll_box.grid(row=0, column=0)
         self.frm_filter.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
-        self.btn_view.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        self.btn_choose_file.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
-        self.btn_upload.grid(row=1, column=2, sticky="nsew", padx=5, pady=5)
+        self.btn_view.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
+        self.btn_choose_file.grid(row=1, column=1, sticky="nsew", padx=5, pady=10)
+        self.btn_upload.grid(row=1, column=2, sticky="nsew", padx=10, pady=10)
 
         # laying out filtering widgets within frm_filter
         self.lbl_filter.grid(row=0)
@@ -100,6 +109,14 @@ class App:
         self.scrollbar.pack(side=tk.RIGHT, fill="y")
         self.dropDown.pack(side=tk.LEFT, fill="y")
 
+    """
+    FUNCTIONS, largely created by Harry A and Sunil S
+    """
+
+    """
+    when choose file button is clicked, a dialogue box opens 
+    which allows the user to select a file, the filepath is returned
+    """
     def choose_file(self):
         filepath = askopenfilename(filetypes=(("csv files", "*.csv"),))
         if not filepath:
@@ -107,8 +124,12 @@ class App:
         self.btn_choose_file["text"] = filepath
         return filepath
 
+    """
+    Once the get_Date button is pressed the validated files
+    are grabbed from the server and added to the dropdown list
+    """
     def get_date(self):
-        '''Once the get_Date button is pressed the validated files are grabbed from the server and added to the dropdown list'''
+
         self.outListItems = []
         date_string = self.calendar.selection_get()
         date_string = str(date_string).replace("-", "")
@@ -135,14 +156,16 @@ class App:
             shutil.rmtree("tempFTPDownload")
         self.putInDropDown(self.outListItems)
 
+    """Adds all the valid files to the drop down list in the UI"""
     def putInDropDown(self, validFilesList):
-        '''Adds all the valid files to the drop down list in the UI'''
         self.dropDown.delete(0, tk.END)
         for val in validFilesList:
             self.dropDown.insert(END, val)
 
+    """
+    Method outputs the given selected file into a Tkinter GUI for easy user reading
+    """
     def selectedItemOutput(self):
-        '''Method outputs the given selected file into a Tkinter GUI for easy user reading'''
         self.fileToOutput = ""
         for item in self.dropDown.curselection():
             self.fileToOutput = self.dropDown.get(item)
@@ -152,6 +175,9 @@ class App:
                                           self.fileToOutput[13:15] + "/" + self.fileToOutput[15:17] + "/" + self.fileToOutput)
 
 
+"""
+LAUNCHING UI
+"""
 def launch_gui():
     app = App()  # Launches the Tkinter UI
     app.window.mainloop()
