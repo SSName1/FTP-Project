@@ -54,6 +54,7 @@ class App:
         self.frm_filter = tk.Frame(master=self.window)
         self.lbl_filter = tk.Label(master=self.frm_filter,
                                    text="Filter by Date")
+        """calendar code created by team"""
         self.btn_filter = \
             tk.Button(
                 master=self.frm_filter,
@@ -63,6 +64,7 @@ class App:
         # creating calendar widget
         self.calendar = Calendar(master=self.frm_filter,
                                  selectmode="day")
+        """end of calendar code"""
 
         # other button widgets
         self.btn_view = tk.Button(
