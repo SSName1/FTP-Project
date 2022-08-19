@@ -52,18 +52,17 @@ class App:
         """
         # configuring filter widgets
         self.frm_filter = tk.Frame(master=self.window)
-
         self.lbl_filter = tk.Label(master=self.frm_filter,
                                    text="Filter by Date")
-        # creating calendar widget
-        self.calendar = Calendar(master=self.frm_filter,
-                                 selectmode="day")
         self.btn_filter = \
             tk.Button(
                 master=self.frm_filter,
                 text="Get Date",
                 command=self.get_date
             )
+        # creating calendar widget
+        self.calendar = Calendar(master=self.frm_filter,
+                                 selectmode="day")
 
         # other button widgets
         self.btn_view = tk.Button(
@@ -118,10 +117,14 @@ class App:
     which allows the user to select a file, the filepath is returned
     """
     def choose_file(self):
+        # user selects filepath from dialogue window
         filepath = askopenfilename(filetypes=(("csv files", "*.csv"),))
+        # if no file path is selected, nothing happens
         if not filepath:
             return
+        # changes text of button to display the filepath
         self.btn_choose_file["text"] = filepath
+        # returns the filepath
         return filepath
 
     """
